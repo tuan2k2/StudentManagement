@@ -33,7 +33,11 @@ public class main {
                     System.out.println("Nhập mã sinh viên:");
                     int msv = sc.nextInt();
                     Student student3 = studentManagement.searchByID(msv);
-                    System.out.println(student3);
+                    if (student3 == null ){
+                        break;
+                    }else {
+                        System.out.println(student3);
+                    }
                     break;
                 case 4:
                     for (Student student1 : students){
@@ -61,31 +65,47 @@ public class main {
                     }
                     break;
                 case 6:
-                    Student student6 = students.get(0);
-                    float max = student6.calculateAverageScore(student6.getTheoryScore(),student6.getPraticeScore());
-                    for (int i=0 ; i<students.size() ; i++){
-                        if(students.get(i).calculateAverageScore(students.get(i).getTheoryScore(),students.get(i).getPraticeScore()) > max ){
-                            max = students.get(i).calculateAverageScore(students.get(i).getTheoryScore(),students.get(i).getPraticeScore());
+                    Collections.sort(students, new Comparator<Student>() {
+                        @Override
+                        public int compare(Student sv1, Student sv2) {
+                            if (sv1.calculateAverageScore(sv1.getTheoryScore(), sv1.getPraticeScore()) < sv2.calculateAverageScore(sv2.getTheoryScore(), sv2.getPraticeScore())) {
+                                return -1;
+                            } else {
+                                if (sv1.calculateAverageScore(sv1.getTheoryScore(), sv1.getPraticeScore()) == sv2.calculateAverageScore(sv2.getTheoryScore(), sv2.getPraticeScore())) {
+                                    return 0;
+                                } else {
+                                    return 1;
+                                }
+                            }
                         }
-                    }
-                    for (int i=0 ; i<students.size() ; i++) {
-                        if (max == students.get(i).calculateAverageScore(students.get(i).getTheoryScore(), students.get(i).getPraticeScore())) {
-                            System.out.println("Sinh viên có điểm trung bình cao nhất là:");
+                    });
+                    System.out.println("Sinh Viên có điểm trung bình cao nhất là:");
+                    float max = students.get(students.size()-1).calculateAverageScore(students.size()-1 , students.size()-1);
+                    for (int i=students.size()-1 ; i>=0 ; i--){
+                        if (students.get(i).calculateAverageScore(students.get(i).getTheoryScore(), students.get(i).getPraticeScore()) == max){
                             System.out.println(students.get(i));
                         }
                     }
                     break;
                 case 7:
-                    Student student7 = students.get(0);
-                    float min = student7.calculateAverageScore(student7.getTheoryScore(),student7.getPraticeScore());
-                    for (int i=0 ; i<students.size() ; i++){
-                        if(students.get(i).calculateAverageScore(students.get(i).getTheoryScore(),students.get(i).getPraticeScore()) < min ){
-                            min = students.get(i).calculateAverageScore(students.get(i).getTheoryScore(),students.get(i).getPraticeScore());
+                    Collections.sort(students, new Comparator<Student>() {
+                        @Override
+                        public int compare(Student sv1, Student sv2) {
+                            if (sv1.calculateAverageScore(sv1.getTheoryScore(), sv1.getPraticeScore()) > sv2.calculateAverageScore(sv2.getTheoryScore(), sv2.getPraticeScore())) {
+                                return -1;
+                            } else {
+                                if (sv1.calculateAverageScore(sv1.getTheoryScore(), sv1.getPraticeScore()) == sv2.calculateAverageScore(sv2.getTheoryScore(), sv2.getPraticeScore())) {
+                                    return 0;
+                                } else {
+                                    return 1;
+                                }
+                            }
                         }
-                    }
-                    for (int i=0 ; i<students.size() ; i++ ){
-                        if (min == students.get(i).calculateAverageScore(students.get(i).getTheoryScore(),students.get(i).getPraticeScore())){
-                            System.out.println("Sinh viên Có điểm trung bình thấp nhất là:");
+                    });
+                    System.out.println("Sinh Viên có điểm trung bình Thấp  nhất là:");
+                    float min = students.get(students.size()-1).calculateAverageScore(students.size()-1 , students.size()-1);
+                    for (int i=students.size()-1 ; i>=0 ; i--){
+                        if (students.get(i).calculateAverageScore(students.get(i).getTheoryScore(), students.get(i).getPraticeScore()) == min){
                             System.out.println(students.get(i));
                         }
                     }
@@ -93,6 +113,7 @@ public class main {
                 case 8:
                     System.out.println("Nhập MSV cần sửa:");
                     int msv8 = sc.nextInt();
+                    sc.nextLine();
                     Student student8 = studentManagement.searchByID(msv8);
                     if (student8 == null){
                         System.out.println("MSV không hợp lệ");
@@ -154,3 +175,4 @@ public class main {
         System.out.println(student.toString());
     }
 }
+
